@@ -1,22 +1,22 @@
 public class RocketShip {
 	public static void main(String[] args){
-		triangle();
+		triangle(4);
 		square("      ","      ");
 		square("United","States");
 		square("United","States");
 		square("      ","      ");
-		triangle();
+		triangle(4);
 	}
 	public static void square(String l1, String l2){
-		System.out.println("|--------|");
-		System.out.println("| "+l1+" |");
-		System.out.println("| "+l2+" |");
-		System.out.println("|--------|");
+		System.out.println(" |--------|");
+		System.out.println(" | "+l1+" |");
+		System.out.println(" | "+l2+" |");
+		System.out.println(" |--------|");
 	}
 	
-	public static void triangle(){
-		for (int i = 0; i <= 2; i++) {
-			for (int j = 0; j <= (2-i); j++) {
+	public static void triangle(int length){
+		for (int i = 0; i <= length-1; i++) {
+			for (int j = 0; j <= (length-i); j++) {
 				System.out.print(" ");
 			}
 			System.out.print("/");
