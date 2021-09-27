@@ -29,19 +29,34 @@ public class Test{
         mainBoard = dropPiece(mainBoard, 2, USER_PIECE);
         printBoard(mainBoard);
         score = score(mainBoard);
-        System.out.println(score);
+        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
 
         mainBoard = dropPiece(mainBoard, 2, COMPUTER_PIECE);
         printBoard(mainBoard);
         score = score(mainBoard);
-        System.out.println(score);
+        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
         
         mainBoard = dropPiece(mainBoard, 1, USER_PIECE);
         printBoard(mainBoard);
         score = score(mainBoard);
-        System.out.println(score);
+        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
+
+                mainBoard = dropPiece(mainBoard, 1, USER_PIECE);
+        printBoard(mainBoard);
+        score = score(mainBoard);
+        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
+
+                mainBoard = dropPiece(mainBoard, 1, USER_PIECE);
+        printBoard(mainBoard);
+        score = score(mainBoard);
+        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
+
+                mainBoard = dropPiece(mainBoard, 1, USER_PIECE);
+        printBoard(mainBoard);
+        score = score(mainBoard);
+        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
 		// define matrix
-        }
+    }
     // ----------------------------------------- END MAIN METHOD ---------------------------------  
 
     
@@ -90,20 +105,20 @@ public class Test{
         int sum = 0;
         // vertical
         System.out.println("for loop start");
-        for(int p = 1; p <= WIN_STATE; p ++){
+        for(int p = 2; p <= WIN_STATE; p ++){
             System.out.println("p value: "+p);    
             for(int c = 0; c < BOARD_WIDTH; c ++){
                 System.out.println("c value: "+c);
-                for(int r = 0; r <= p; r ++){
-                    System.out.println("r value: "+r);
-                    System.out.println("sum: "+sum);
-                    System.out.println();
+                for(int r = 0; r < (BOARD_HEIGHT-p); r ++){
+                    //System.out.println("r value: "+r);
+                    //System.out.println("sum: "+sum);
+                    //System.out.println();
                     for(int i = 0; i < p; i++){
                         sum += board[r+i][c];
-                        System.out.println("board state: ["+(r+i)+"] ["+c+"] = "+board[r+i][c]);
+                        //System.out.println("board state: ["+(r+i)+"] ["+c+"] = "+board[r+i][c]);
                         int t = board[r+i][c]; 
-                        board[r+i][c] = 1;
-                        printBoard(board);
+                        board[r+i][c] = -1;
+                        //printBoard(board);
                         board[r+i][c] = t;
                     }
                     if (sum == p){

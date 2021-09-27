@@ -20,6 +20,41 @@ class BankAccount{
         thpassword = aPassword;
     }
 
+    // setter methods
+
+    public void setName(String newName){
+        name = newName;
+    }
+
+    public void setNum(int newNum){
+        accNum = newNum;
+    }
+
+    public void setPass(String newpass){
+        password = newpass;
+    }
+
+    public void setNum(int newBalance){
+        balance = newBalance;
+
+    // getter methods
+
+    public String getName(){
+        return this.name;
+    }
+
+    public String getPass(){
+        return this.password;
+    }
+
+    public int getAccountNumber(){
+        return this.accNum;
+    }
+
+    public double getBalance(){
+        return this.Balance;
+    }
+
     // BankAccount b1 = new BankAccount();
     // BankAccount b2 = new BankAccount(200.0, "Bill", 123456, "B56")
 }
