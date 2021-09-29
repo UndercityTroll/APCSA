@@ -17,26 +17,26 @@ class BankAccount{
         this.name = name;
         this.accNum = accNum;
         balance = aBalance;
-        thpassword = aPassword;
+        password = aPassword;
     }
 
     // setter methods
 
     public void setName(String newName){
-        name = newName;
+        this.name = newName;
     }
 
     public void setNum(int newNum){
-        accNum = newNum;
+        this.accNum = newNum;
     }
 
     public void setPass(String newpass){
-        password = newpass;
+        this.password = newpass;
     }
 
-    public void setNum(int newBalance){
-        balance = newBalance;
-
+    public void setBalance(int newBalance){
+        this.balance = newBalance;
+    }
     // getter methods
 
     public String getName(){
@@ -52,9 +52,23 @@ class BankAccount{
     }
 
     public double getBalance(){
-        return this.Balance;
+        return this.balance;
+    }
+    public String toString(){
+        return "Name: "+this.name+"\n"+"Password: "+this.password+"\n"+"Account Number: "+this.accNum+"\n"+"Balance: "+this.balance+"\n";
     }
 
-    // BankAccount b1 = new BankAccount();
-    // BankAccount b2 = new BankAccount(200.0, "Bill", 123456, "B56")
-}
+} // end of Bank account class
+
+
+/// MAIN PUBLIC CLASS
+
+public class BankAccountTest{
+    public static void main (String[] args){
+        BankAccount b1 = new BankAccount();
+        BankAccount b2 = new BankAccount(200.0, "Bill", 123456, "B56");
+        System.out.println(b1.toString());
+        System.out.println(b2.toString());
+    
+    } // end of main
+} // end of bank account test class

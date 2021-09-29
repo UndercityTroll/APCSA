@@ -17,45 +17,26 @@ public class Test{
     public static final int WIN_STATE = 4;
 
     // User and Computer Symbols
-    public static final int USER_PIECE = 1;
-    public static final int COMPUTER_PIECE = -1;
+    public static final int USER_PIECE = 1;      // user is   X
+    public static final int COMPUTER_PIECE = -1; // computer is   O
 
     // ----------------------------------------- MAIN METHOD -------------------------------------
 	public static void main(String[] args){
 		// define the main board
         int[][] mainBoard = boardSet();
+
+        // define score
         double[] score ={0,0,0};
 
-        mainBoard = dropPiece(mainBoard, 2, USER_PIECE);
-        printBoard(mainBoard);
-        score = score(mainBoard);
-        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
 
-        mainBoard = dropPiece(mainBoard, 2, COMPUTER_PIECE);
-        printBoard(mainBoard);
-        score = score(mainBoard);
-        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
+        // test gameplay
+        for(int i=0;i<30;i++){
+            mainBoard = dropPiece(mainBoard, (int)(Math.random()*7.0+1), (i%2)*2-1);
+            printBoard(mainBoard, score);
+            score = score(mainBoard);
+            printBoard(mainBoard, score);
+        }
         
-        mainBoard = dropPiece(mainBoard, 1, USER_PIECE);
-        printBoard(mainBoard);
-        score = score(mainBoard);
-        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
-
-                mainBoard = dropPiece(mainBoard, 1, USER_PIECE);
-        printBoard(mainBoard);
-        score = score(mainBoard);
-        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
-
-                mainBoard = dropPiece(mainBoard, 1, USER_PIECE);
-        printBoard(mainBoard);
-        score = score(mainBoard);
-        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
-
-                mainBoard = dropPiece(mainBoard, 1, USER_PIECE);
-        printBoard(mainBoard);
-        score = score(mainBoard);
-        System.out.println(score[0]+" "+score[1]+" "+score[2]+" ");
-		// define matrix
     }
     // ----------------------------------------- END MAIN METHOD ---------------------------------  
 
@@ -68,7 +49,7 @@ public class Test{
     }
 
     // code to print board to user each turn
-    public static void printBoard(int[][] board){
+    public static void printBoard(int[][] board, double[] score){
         System.out.println();
         for (int i = 0; i<BOARD_HEIGHT;i++){
             for (int j = 0; j<BOARD_WIDTH;j++){
@@ -86,6 +67,8 @@ public class Test{
         for (int j = 1; j<=7;j++){
             System.out.print(j+" ");
         }
+        System.out.println();
+        System.out.println("X:"+score[0]+" O:"+score[1]+" %:"+(100-Math.round((score[2]*100)))+" ");
     }
 
     // code to drop a piece after into a column
@@ -103,39 +86,102 @@ public class Test{
     public static double [] score(int[][] board){
         double[] score = {0,0,0};
         int sum = 0;
-        // vertical
-        System.out.println("for loop start");
+        // --------------------------------- vertical  --------------------------------- 
+
+        //System.out.println("for loop start");
         for(int p = 2; p <= WIN_STATE; p ++){
-            System.out.println("p value: "+p);    
+            //for every point value   
             for(int c = 0; c < BOARD_WIDTH; c ++){
-                System.out.println("c value: "+c);
-                for(int r = 0; r < (BOARD_HEIGHT-p); r ++){
-                    //System.out.println("r value: "+r);
-                    //System.out.println("sum: "+sum);
-                    //System.out.println();
+                //for every column
+                for(int r = 0; r < (BOARD_HEIGHT-p+1); r ++){
+                    // for every row
+                    // find the sum of all digits in selection
                     for(int i = 0; i < p; i++){
                         sum += board[r+i][c];
-                        //System.out.println("board state: ["+(r+i)+"] ["+c+"] = "+board[r+i][c]);
-                        int t = board[r+i][c]; 
-                        board[r+i][c] = -1;
-                        //printBoard(board);
-                        board[r+i][c] = t;
                     }
+                    // if uninterupted then added to score
                     if (sum == p){
-                        score[0] += Math.pow(WIN_STATE*WIN_STATE,p);
+                        score[0] += Math.pow(2,p*p);
+                        //System.out.println("score 0:  "+score[0]+"| ["+r+"]["+c+"]");
                     } else if (sum == p*-1){
-                        score[1] += Math.pow(WIN_STATE*WIN_STATE,p);
+                        score[1] += Math.pow(2,p*p);
+                        //System.out.println("score 1:  "+score[1]+"| ["+r+"]["+c+"]");
                     }
                     sum = 0;
                 }    
             }
         }
-        // horizontal
-
-        // diagonal /
-
-        // diagonal \
-
+        // --------------------------------- horizontal--------------------------------- 
+        for(int p = 2; p <= WIN_STATE; p ++){
+            //for every point value   
+            for(int r = 0; r < BOARD_HEIGHT; r ++){
+                //for every column
+                for(int c = 0; c < (BOARD_WIDTH-p+1); c ++){
+                    // for every row
+                    // find the sum of all digits in selection
+                    for(int i = 0; i < p; i++){
+                        sum += board[r][c+i];
+                    }
+                    // if uninterupted then added to score
+                    if (sum == p){
+                        score[0] += Math.pow(2,p*p);
+                        //System.out.println("score 0:  "+score[0]+"| ["+r+"]["+c+"]");
+                    } else if (sum == p*-1){
+                        score[1] += Math.pow(2,p*p);
+                        //System.out.println("score 1:  "+score[1]+"| ["+r+"]["+c+"]");
+                    }
+                    sum = 0;
+                }    
+            }
+        }
+        // --------------------------------- diagonal \ --------------------------------- 
+        for(int p = 2; p <= WIN_STATE; p ++){
+            //for every point value   
+            for(int r = 0; r < (BOARD_HEIGHT-p+1); r ++){
+                //for every column
+                for(int c = 0; c < (BOARD_WIDTH-p+1); c ++){
+                    // for every row
+                    // find the sum of all digits in selection
+                    for(int i = 0; i < p; i++){
+                        sum += board[r+i][c+i];
+                        //System.out.println("["+(r+i)+"]["+(c+i)+"] = "+board[r+i][c+i]);
+                    }
+                    // if uninterupted then added to score
+                    if (sum == p){
+                        score[0] += Math.pow(2,p*p);
+                        //System.out.println("D \\ score 0:  "+score[0]+"| ["+r+"]["+c+"]");
+                    } else if (sum == p*-1){
+                        score[1] += Math.pow(2,p*p);
+                        //System.out.println("D \\ score 1:  "+score[1]+"| ["+r+"]["+c+"]");
+                    }
+                    sum = 0;
+                }    
+            }
+        }
+        // --------------------------------- diagonal / --------------------------------- 
+        for(int p = 2; p <= WIN_STATE; p ++){
+            //for every point value   
+            for(int r = 0; r < (BOARD_HEIGHT-p+1); r ++){
+                //for every column
+                for(int c = 0; c < (BOARD_WIDTH-p+1); c ++){
+                    // for every row
+                    // find the sum of all digits in selection
+                    for(int i = 0; i < p; i++){
+                        sum += board[r+i][c+p-i-1];
+                        //System.out.println("["+(r+i)+"]["+(c+p-i-1)+"] = "+board[r+i][c+p-i-1]);
+                    }
+                    // if uninterupted then added to score
+                    if (sum == p){
+                        score[0] += Math.pow(2,p*p);
+                        System.out.println("D / score 0:  "+score[0]+"| ["+r+"]["+c+"]["+p+"]");
+                    } else if (sum == p*-1){
+                        score[1] += Math.pow(2,p*p);
+                        System.out.println("D / score 1:  "+score[1]+"| ["+r+"]["+c+"]["+p+"]");
+                    }
+                    sum = 0;
+                }    
+            }
+        }
         // setting the win percent
         score[2] = score[1]/(score[0]+score[1]);
         return score;
