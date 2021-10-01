@@ -1,3 +1,5 @@
+import java.util.*;
+
 class BankAccount{
     //instance variables/ attributes
     private double balance;
@@ -34,28 +36,37 @@ class BankAccount{
         this.password = newpass;
     }
 
-    public void setBalance(int newBalance){
+    public void setBalance(double newBalance){
         this.balance = newBalance;
     }
     // getter methods
 
     public String getName(){
-        return this.name;
+        return name;
     }
 
     public String getPass(){
-        return this.password;
+        return password;
     }
 
     public int getAccountNumber(){
-        return this.accNum;
+        return accNum;
     }
 
     public double getBalance(){
-        return this.balance;
+        return balance;
     }
     public String toString(){
         return "Name: "+this.name+"\n"+"Password: "+this.password+"\n"+"Account Number: "+this.accNum+"\n"+"Balance: "+this.balance+"\n";
+    }
+
+    // other methods
+    public void withdraw(double amount){
+        balance-=amount;
+    }
+
+    public void deposit(double amount){
+        balance+=amount;
     }
 
 } // end of Bank account class
@@ -67,8 +78,34 @@ public class BankAccountTest{
     public static void main (String[] args){
         BankAccount b1 = new BankAccount();
         BankAccount b2 = new BankAccount(200.0, "Bill", 123456, "B56");
-        System.out.println(b1.toString());
-        System.out.println(b2.toString());
-    
+        //System.out.println(b1.toString());
+        //System.out.println(b2.toString());
+
+
+        // cringe creation of class with user input
+        Scanner console = new Scanner(System.in);
+
+        System.out.println("Lets create some debt for you!");
+        System.out.print("What is your name: ");
+        String name = console.nextLine();
+        System.out.println();
+
+        System.out.print("Set a password: ");
+        String pass = console.nextLine();
+        System.out.println();
+
+        System.out.print("How rich are u: ");
+        double bal = console.nextDouble();
+        System.out.println();
+
+        BankAccount b3 = new BankAccount(bal, name, (int)(Math.random()*999999),pass);
+        System.out.println("awesome your path to deficit is in way!");
+
+        System.out.println("Available Funds: $"+b3.getBalance());
+        System.out.print("How much money do you want to withdraw: ");
+        int withdraw = console.nextInt();
+        b3.withdraw(withdraw);
+        System.out.println("New Available Funds: $"+b3.getBalance());
+
     } // end of main
 } // end of bank account test class

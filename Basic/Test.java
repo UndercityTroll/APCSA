@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Test{
     // different print color constants
     public static final String ANSI_RESET  = "\u001B[0m";
@@ -26,20 +28,41 @@ public class Test{
         int[][] mainBoard = boardSet();
 
         // define score
-        double[] score ={0,0,0};
+        double[] score ={0,0,0,0};
 
+        // define scanner
+         Scanner console = new Scanner(System.in);  // Create a Scanner object
+
+         // define use input
+         int input;
 
         // test gameplay
         for(int i=0;i<30;i++){
-            mainBoard = dropPiece(mainBoard, (int)(Math.random()*7.0+1), (i%2)*2-1);
-            printBoard(mainBoard, score);
+            mainBoard = dropPiece(mainBoard, (int)(Math.random()*7.0+1), COMPUTER_PIECE);
             score = score(mainBoard);
             printBoard(mainBoard, score);
+            if (score[3]!=0){
+                System.out.println("win");
+                break;
+            }
+            mainBoard = getInput(mainBoard, console);
+            score = score(mainBoard);
+            printBoard(mainBoard, score);
+            if (score[3]!=0){
+                System.out.println("win");
+                break;
+            }
         }
         
     }
     // ----------------------------------------- END MAIN METHOD ---------------------------------  
 
+
+    public static int[][] getInput(int[][] board, Scanner console){
+        System.out.print("which column do you want to drop the piece into: ");
+        int user = console.nextInt();
+        return  dropPiece(board, user, USER_PIECE);
+    }
     
     /// initialize board state to all 0's
     public static int[][] boardSet(){
@@ -50,6 +73,7 @@ public class Test{
 
     // code to print board to user each turn
     public static void printBoard(int[][] board, double[] score){
+        System.out.println();
         System.out.println();
         for (int i = 0; i<BOARD_HEIGHT;i++){
             for (int j = 0; j<BOARD_WIDTH;j++){
@@ -69,6 +93,7 @@ public class Test{
         }
         System.out.println();
         System.out.println("X:"+score[0]+" O:"+score[1]+" %:"+(100-Math.round((score[2]*100)))+" ");
+        System.out.println("Win state : "+score[3]);
     }
 
     // code to drop a piece after into a column
@@ -82,9 +107,32 @@ public class Test{
         return board;
     }
 
+// Recursion Section
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // return board score
     public static double [] score(int[][] board){
-        double[] score = {0,0,0};
+        double[] score = {0,0,0,0};
         int sum = 0;
         // --------------------------------- vertical  --------------------------------- 
 
@@ -102,10 +150,16 @@ public class Test{
                     // if uninterupted then added to score
                     if (sum == p){
                         score[0] += Math.pow(2,p*p);
+                        if (p==4){
+                            score[3] = 1;
+                        }
                         //System.out.println("score 0:  "+score[0]+"| ["+r+"]["+c+"]");
                     } else if (sum == p*-1){
                         score[1] += Math.pow(2,p*p);
                         //System.out.println("score 1:  "+score[1]+"| ["+r+"]["+c+"]");
+                        if (p==4){
+                            score[3] = -1;
+                        }
                     }
                     sum = 0;
                 }    
@@ -125,9 +179,15 @@ public class Test{
                     // if uninterupted then added to score
                     if (sum == p){
                         score[0] += Math.pow(2,p*p);
+                        if (p==4){
+                            score[3] = 1;
+                        }
                         //System.out.println("score 0:  "+score[0]+"| ["+r+"]["+c+"]");
                     } else if (sum == p*-1){
                         score[1] += Math.pow(2,p*p);
+                        if (p==4){
+                            score[3] = -1;
+                        }
                         //System.out.println("score 1:  "+score[1]+"| ["+r+"]["+c+"]");
                     }
                     sum = 0;
@@ -149,9 +209,15 @@ public class Test{
                     // if uninterupted then added to score
                     if (sum == p){
                         score[0] += Math.pow(2,p*p);
+                        if (p==4){
+                            score[3] = 1;
+                        }
                         //System.out.println("D \\ score 0:  "+score[0]+"| ["+r+"]["+c+"]");
                     } else if (sum == p*-1){
                         score[1] += Math.pow(2,p*p);
+                        if (p==4){
+                            score[3] = -1;
+                        }
                         //System.out.println("D \\ score 1:  "+score[1]+"| ["+r+"]["+c+"]");
                     }
                     sum = 0;
@@ -173,17 +239,29 @@ public class Test{
                     // if uninterupted then added to score
                     if (sum == p){
                         score[0] += Math.pow(2,p*p);
-                        System.out.println("D / score 0:  "+score[0]+"| ["+r+"]["+c+"]["+p+"]");
+                        if (p==4){
+                            score[3] = 1;
+                        }
+                        //System.out.println("D / score 0:  "+score[0]+"| ["+r+"]["+c+"]["+p+"]");
                     } else if (sum == p*-1){
                         score[1] += Math.pow(2,p*p);
-                        System.out.println("D / score 1:  "+score[1]+"| ["+r+"]["+c+"]["+p+"]");
+                        if (p==4){
+                            score[3] = -1;
+                        }
+                        //System.out.println("D / score 1:  "+score[1]+"| ["+r+"]["+c+"]["+p+"]");
                     }
                     sum = 0;
                 }    
             }
         }
         // setting the win percent
-        score[2] = score[1]/(score[0]+score[1]);
+        if (score[3]==-1){
+            score[2] = 1;
+        } else if (score[3]==1)  {
+            score[2] = 0;
+        } else {
+            score[2] = score[1]/(score[0]+score[1]);
+        }
         return score;
     }
 }
