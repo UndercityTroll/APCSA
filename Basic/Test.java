@@ -18,6 +18,9 @@ public class Test{
     public static final int BOARD_HEIGHT = 5;
     public static final int WIN_STATE = 4;
 
+    // recursion depth
+    public static final int RECURSION_DEPTH = 1;
+
     // User and Computer Symbols
     public static final int USER_PIECE = 1;      // user is   X
     public static final int COMPUTER_PIECE = -1; // computer is   O
@@ -38,7 +41,7 @@ public class Test{
 
         // test gameplay
         for(int i=0;i<30;i++){
-            mainBoard = dropPiece(mainBoard, (int)(Math.random()*7.0+1), COMPUTER_PIECE);
+            mainBoard = computerRecurse(mainBoard,0);
             score = score(mainBoard);
             printBoard(mainBoard, score);
             if (score[3]!=0){
@@ -98,20 +101,85 @@ public class Test{
 
     // code to drop a piece after into a column
     public static int[][] dropPiece(int[][] board, int column, int piece){
-        for (int i = (BOARD_HEIGHT-1); i>0; i--){
-            if (board[i][column-1] == 0){
-                board[i][column-1] = piece;
-                return board;
+        int[][] tBoard = board;
+        for (int i = (BOARD_HEIGHT-1); i>=0; i--){
+            if (tBoard[i][column-1] == 0){
+                tBoard[i][column-1] = piece;
+                return tBoard;
             }
         }
-        return board;
+        return tBoard;
     }
 
-// Recursion Section
+    // Recursion Section
+
+    public static int[][] computerRecurse(int[][] boardC, int depth){
+        double[] bestScore ={0.0,0.0,0.0,0.0};
+        int[][] bestBoard = boardC;
+        int[][] tempBoard = boardC;
+        int[][] bh = boardC;
+        printBoard(bestBoard, bestScore);
+        //int[][][] boards = {board,board,board,board,board,board,board};
+        depth++;
+        if (depth <= RECURSION_DEPTH){
+            for (int c = 1; c <= BOARD_WIDTH; c++){
+                System.out.println("Depth: COMPUTER: "+depth+" column: "+c);
+                tempBoard = bh;
+                System.out.println(" ------ BOARD PRINT ------");
+                printBoard(bh, bestScore);
+                tempBoard = dropPiece(bh,c,COMPUTER_PIECE);
+                System.out.println("right after drop");
+                printBoard(tempBoard, bestScore);
+                // for scoring
+                //double[] tempScore = score(tempBoard);
+                //printBoard(tempBoard, tempScore);
+                // recursion
+                tempBoard = userRecurse(tempBoard, depth);
+                double[] tempScore = score(tempBoard);
+                if (tempScore[2]>=bestScore[2]){
+                    bestScore=tempScore;
+                    bestBoard=dropPiece(bh,(c),COMPUTER_PIECE);
+                    System.out.println(" ----------------- best board c: "+c);
+                    //printBoard(bestBoard, bestScore);
+                }
+            }
+        }
+        System.out.println("X:"+bestScore[0]+" O:"+bestScore[1]+" %:"+bestScore[2]+" W:"+bestScore[3]);
+        //printBoard(bestBoard, bestScore);
+        return bestBoard;
+    }
 
 
-
-
+    public static int[][] userRecurse(int[][] boardU, int depth){
+        double[] worstScore ={1.0,1.0,1.0,1.0};
+        int[][] worstBoard = boardU;
+        int[][] tempBoard = boardU;
+        printBoard(worstBoard, worstScore);
+        depth++;
+        if (depth <= RECURSION_DEPTH){
+            for (int c = 1; c <= BOARD_WIDTH; c++){
+                System.out.println("Depth: USER: "+depth+" column: "+c);
+                tempBoard = boardSet();
+                tempBoard = dropPiece(boardU,c,USER_PIECE);
+                printBoard(tempBoard, worstScore);
+                // for scoring
+                //double[] tempScore = score(tempBoard);
+                //printBoard(tempBoard, tempScore);
+                // recursion
+                tempBoard = computerRecurse(tempBoard, depth);
+                double[] tempScore = score(tempBoard);
+                if (tempScore[2]<=worstScore[2]){
+                    worstScore=tempScore;
+                    worstBoard=dropPiece(boardU,(c),USER_PIECE);
+                    System.out.println(" ----------------- worst score: "+c);
+                }
+            }
+        }
+        System.out.println(" END OF THE USER CASE");
+        System.out.println("X:"+worstScore[0]+" O:"+worstScore[1]+" %:"+worstScore[2]+" W:"+worstScore[3]);
+        //printBoard(worstBoard, worstScore);
+        return worstBoard;
+    }
 
 
 
