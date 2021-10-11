@@ -117,28 +117,19 @@ public class Test{
         double[] bestScore ={0.0,0.0,0.0,0.0};
         int[][] bestBoard = boardC;
         int[][] tempBoard = boardC;
-        int[][] bh = boardC;
         printBoard(bestBoard, bestScore);
         //int[][][] boards = {board,board,board,board,board,board,board};
         depth++;
         if (depth <= RECURSION_DEPTH){
             for (int c = 1; c <= BOARD_WIDTH; c++){
                 System.out.println("Depth: COMPUTER: "+depth+" column: "+c);
-                tempBoard = bh;
-                System.out.println(" ------ BOARD PRINT ------");
-                printBoard(bh, bestScore);
-                tempBoard = dropPiece(bh,c,COMPUTER_PIECE);
-                System.out.println("right after drop");
-                printBoard(tempBoard, bestScore);
-                // for scoring
-                //double[] tempScore = score(tempBoard);
-                //printBoard(tempBoard, tempScore);
-                // recursion
+                tempBoard = boardC;
+                tempBoard = dropPiece(boardC,c,COMPUTER_PIECE);
                 tempBoard = userRecurse(tempBoard, depth);
                 double[] tempScore = score(tempBoard);
                 if (tempScore[2]>=bestScore[2]){
                     bestScore=tempScore;
-                    bestBoard=dropPiece(bh,(c),COMPUTER_PIECE);
+                    bestBoard=tempBoard;
                     System.out.println(" ----------------- best board c: "+c);
                     //printBoard(bestBoard, bestScore);
                 }
@@ -154,18 +145,12 @@ public class Test{
         double[] worstScore ={1.0,1.0,1.0,1.0};
         int[][] worstBoard = boardU;
         int[][] tempBoard = boardU;
-        printBoard(worstBoard, worstScore);
         depth++;
         if (depth <= RECURSION_DEPTH){
             for (int c = 1; c <= BOARD_WIDTH; c++){
                 System.out.println("Depth: USER: "+depth+" column: "+c);
-                tempBoard = boardSet();
+                tempBoard = boardU;
                 tempBoard = dropPiece(boardU,c,USER_PIECE);
-                printBoard(tempBoard, worstScore);
-                // for scoring
-                //double[] tempScore = score(tempBoard);
-                //printBoard(tempBoard, tempScore);
-                // recursion
                 tempBoard = computerRecurse(tempBoard, depth);
                 double[] tempScore = score(tempBoard);
                 if (tempScore[2]<=worstScore[2]){

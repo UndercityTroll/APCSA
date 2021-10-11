@@ -6,6 +6,8 @@ class BankAccount{
     private String name;
     private int accNum;
     private String password;
+    // constants
+    public static double OVERDRAWN_PENALTY = 20;
 
     // constructors -> the exact same name as the class name
     public BankAccount(){
@@ -61,12 +63,27 @@ class BankAccount{
     }
 
     // other methods
-    public void withdraw(double amount){
-        balance-=amount;
+    public String withdraw(double amount, String pass){
+        if (pass == password){
+            balance -= amount;
+            if (balance<0){
+                balance -= OVERDRAWN_PENALTY;
+                return ("Overdraft");
+            } else {
+                return ("Password valid; withdrawl accepted");
+            }
+        } else {
+            return ("Password invalid; withdrawl declined");
+        }
     }
 
-    public void deposit(double amount){
-        balance+=amount;
+    public String deposit(double amount, String pass){
+        if (pass==password) {
+            balance+=amount;
+            return ("Password valid; deposit accepted");
+        } else {
+            return ("Password invalid; deposit declined");
+        }
     }
 
 } // end of Bank account class
@@ -94,7 +111,7 @@ public class BankAccountTest{
         String pass = console.nextLine();
         System.out.println();
 
-        System.out.print("How rich are u: ");
+        System.out.print("How much cash money u got: $");
         double bal = console.nextDouble();
         System.out.println();
 
@@ -104,7 +121,11 @@ public class BankAccountTest{
         System.out.println("Available Funds: $"+b3.getBalance());
         System.out.print("How much money do you want to withdraw: ");
         int withdraw = console.nextInt();
-        b3.withdraw(withdraw);
+        System.out.println();
+
+        System.out.print("Please enter password: ");
+        String tempPass = console.nextLine();
+        System.out.println(b3.withdraw(withdraw,tempPass));
         System.out.println("New Available Funds: $"+b3.getBalance());
 
     } // end of main
