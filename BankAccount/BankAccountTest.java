@@ -22,7 +22,7 @@ class BankAccount{
         this.accNum = accNum;
         balance = aBalance;
         password = aPassword;
-    }
+    } 
 
     // setter methods
 
@@ -64,7 +64,7 @@ class BankAccount{
 
     // other methods
     public String withdraw(double amount, String pass){
-        if (pass == password){
+        if (this.password.equals(pass)){
             balance -= amount;
             if (balance<0){
                 balance -= OVERDRAWN_PENALTY;
@@ -78,7 +78,7 @@ class BankAccount{
     }
 
     public String deposit(double amount, String pass){
-        if (pass==password) {
+        if (this.password.equals(pass)) {
             balance+=amount;
             return ("Password valid; deposit accepted");
         } else {
@@ -125,7 +125,7 @@ public class BankAccountTest{
 
         System.out.print("Please enter password: ");
         String tempPass = console.nextLine();
-        System.out.println(b3.withdraw(withdraw,tempPass));
+        System.out.println(b3.withdraw(withdraw,console.nextLine()));
         System.out.println("New Available Funds: $"+b3.getBalance());
 
     } // end of main
