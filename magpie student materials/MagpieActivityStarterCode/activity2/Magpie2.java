@@ -71,6 +71,10 @@ public class Magpie2
 		{
 			response = "Seems like terrible weather";
 		}
+		else if (statement.equals(""))
+		{
+			response = "Please respond to me";
+		}
 		else
 		{
 			response = getRandomResponse();
