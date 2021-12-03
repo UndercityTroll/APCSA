@@ -60,8 +60,7 @@ public class Test{
         }
         
     }
-    // ----------------------------------------- END MAIN METHOD ---------------------------------  
-
+    // ----------------------------------------- END MAIN METHOD ---------------------------------
 
     public static int[][] getInput(int[][] board, Scanner console){
         System.out.print("which column do you want to drop the piece into: ");
