@@ -98,8 +98,16 @@ public class BankAccountTest{
         //System.out.println(b1.toString());
         //System.out.println(b2.toString());
 
+        ArrayList<BankAccount> People = new ArrayList<BankAccount>;
+        People.add(new BankAccount(200.0, "Bill", 123456, "B56"));
+        People.add(new BankAccount(2000.0, "Billy", 69420, "56"));
+        People.add(new BankAccount(20000.0, "Bob", 420, "B5"));
+        People.add(new BankAccount(200000.0, "Bobby", 609, "B6"));
+
+    
 
         // cringe creation of class with user input
+        /* asdfasdf 
         Scanner console = new Scanner(System.in);
 
         System.out.println("Lets create some debt for you!");
@@ -127,6 +135,9 @@ public class BankAccountTest{
         String tempPass = console.nextLine();
         System.out.println(b3.withdraw(withdraw,console.nextLine()));
         System.out.println("New Available Funds: $"+b3.getBalance());
+        */
+
+
 
     } // end of main
 } // end of bank account test class
