@@ -253,7 +253,7 @@ public class Test{
                     // for every row
                     // find the sum of all digits in selection
                     for(int i = 0; i < p; i++){
-                        sum += board[r][c+i];
+                        sum +=  [r][c+i];
                     }
                     // if uninterupted then added to score
                     if (sum == p){

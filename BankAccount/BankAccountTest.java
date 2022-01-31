@@ -22,7 +22,7 @@ class BankAccount{
         this.accNum = accNum;
         balance = aBalance;
         password = aPassword;
-    } 
+    }
 
     // setter methods
 
