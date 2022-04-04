@@ -1,132 +1,154 @@
 import java.util.*;
 
-class BankAccount{
-    //instance variables/ attributes
+// Vikram Murugan
+// Creates a class of Bank Account which will allow different accounts to be compared based on size
+
+class BankAccount implements Comparable<BankAccount>{
+    //instance vars
     private double balance;
     private String name;
-    private int accNum;
+    private int acctNum;
     private String password;
-    // constants
-    public static double OVERDRAWN_PENALTY = 20;
+    private static final double OVERDRAW_PENALTY = 20.0;
 
-    // constructors -> the exact same name as the class name
-    public BankAccount(){
-        name = "";
-        accNum = 000000;
-        balance = 0.0;
-        password = "";
+    //default constructor
+    public BankAccount() {
+        balance = 0;
+        name = null;
+        acctNum = 0;
+        password = null;
     }
 
-    public BankAccount(double aBalance, String name, int accNum, String aPassword){
+    public BankAccount(String name, double balance, int acctNum, String password) {
+        this.balance = balance;
         this.name = name;
-        this.accNum = accNum;
-        balance = aBalance;
-        password = aPassword;
+        this.acctNum = acctNum;
+        this.password = password;
     }
 
-    // setter methods
-
-    public void setName(String newName){
-        this.name = newName;
+    //mutators
+    public void setBalance(double balance){
+        this.balance = balance;
     }
 
-    public void setNum(int newNum){
-        this.accNum = newNum;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setPass(String newpass){
-        this.password = newpass;
+    public void setAccountNumber(int acctNum) {
+        this.acctNum = acctNum;
     }
 
-    public void setBalance(double newBalance){
-        this.balance = newBalance;
+    public void setPassword(String password) {
+        this.password = password;
     }
-    // getter methods
 
-    public String getName(){
+    //accesors
+    public double getBalance() {
+        return balance;
+    }
+
+    public String getName() {
         return name;
     }
+    public int getAccountNumber() {
+        return acctNum;
+    }
 
-    public String getPass(){
+    public String getPassword() {
         return password;
     }
 
-    public int getAccountNumber(){
-        return accNum;
-    }
-
-    public double getBalance(){
-        return balance;
-    }
+    //toString
     public String toString(){
-        return "Name: "+this.name+"\n"+"Password: "+this.password+"\n"+"Account Number: "+this.accNum+"\n"+"Balance: "+this.balance+"\n";
+        return "\nName: " + name + "\nBalance: " + balance + "\nAcctNum: " + acctNum + "\nPassword: " + password;
     }
 
-    // other methods
-    public String withdraw(double amount, String pass){
-        if (this.password.equals(pass)){
+    //compareTo
+    public int compareTo(BankAccount other){
+        if (this.balance > other.balance) {
+            return 1;
+        } else if (this.balance < other.balance) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+
+    public void deposit(double amount) {
+        balance = balance + amount;
+    }
+
+    public void deposit(double amount, String password) {
+        if (password.equals(this.password)) {
+            balance += amount;
+        } else {
+            System.out.println("password invalid; deposit declined");
+        }
+    }
+
+    public void withdraw(double amount, String Password) {
+        if (password.equals(this.password)) {
             balance -= amount;
-            if (balance<0){
-                balance -= OVERDRAWN_PENALTY;
-                return ("Overdraft");
-            } else {
-                return ("Password valid; withdrawl accepted");
+            if (balance < 0) {
+                System.out.println("Accouunt Overdrawn. $20 deducted");
+                balance -= OVERDRAW_PENALTY;
             }
         } else {
-            return ("Password invalid; withdrawl declined");
+            System.out.println("password invalid; withdrawal declined");
         }
     }
+}
 
-    public String deposit(double amount, String pass){
-        if (this.password.equals(pass)) {
-            balance+=amount;
-            return ("Password valid; deposit accepted");
-        } else {
-            return ("Password invalid; deposit declined");
-        }
+public class BankAccountTest {
+    public static void main(String[] args){
+        ArrayList<BankAccount> accountList = new ArrayList<>();
+
+        accountList.add(new BankAccount("Sus", 100000, 1234, "asdfhklj"));
+        accountList.add(new BankAccount("Sus #2", 50000, 5678, "asfd"));
+        accountList.add(new BankAccount("Sus #3", 75000, 910, "qwerqwerq"));
+
+        System.out.println("Accounts: " + accountList);
+        Collections.sort(accountList);
+        System.out.println("Accounts: " + accountList);
+
+        /*Scanner reader = new Scanner(System.in);
+        BankAccount account = new BankAccount("sus", 100.0, 12414142, "asdfasdf");
+
+        System.out.println(account);
+        System.out.print("What is your deposit? ");
+        double deposit = reader.nextDouble();
+        System.out.print("What is your password? ");
+        account.deposit(deposit, reader.next());
+        System.out.println(account);
+
+        System.out.print("What is your withdrawal? ");
+        double withdrawal = reader.nextDouble();
+        System.out.print("What is your password? ");
+        account.deposit(withdrawal, reader.next());
+        System.out.println(account);
+
+		System.out.print("What is your name? ");
+		account.setName(reader.next());
+		System.out.print("What is your Balance? ");
+		account.setBalance(reader.nextDouble());
+		System.out.print("What is your Account Number? ");
+		account.setAccountNumber(reader.nextInt());
+		System.out.print("What is your Password? ");
+		account.setPassword(reader.next());
+
+		System.out.println();
+		System.out.println(account);
+
+		System.out.print("How much money do you want to add? ");
+		account.deposit(reader.nextDouble());
+		System.out.println("Balance: " + account.getBalance());
+
+		System.out.print("How much money do you want to remove? ");
+		account.withdraw(reader.nextDouble());
+		System.out.println("Balance: " + account.getBalance());
+
+		System.out.println(account);*/
+
     }
-
-} // end of Bank account class
-
-
-/// MAIN PUBLIC CLASS
-
-public class BankAccountTest{
-    public static void main (String[] args){
-        BankAccount b1 = new BankAccount();
-        BankAccount b2 = new BankAccount(200.0, "Bill", 123456, "B56");
-        //System.out.println(b1.toString());
-        //System.out.println(b2.toString());
-
-
-        // cringe creation of class with user input
-        Scanner console = new Scanner(System.in);
-
-        System.out.println("Lets create some debt for you!");
-        System.out.print("What is your name: ");
-        String name = console.nextLine();
-        System.out.println();
-
-        System.out.print("Set a password: ");
-        String pass = console.nextLine();
-        System.out.println();
-
-        System.out.print("How much cash money u got: $");
-        double bal = console.nextDouble();
-        System.out.println();
-
-        BankAccount b3 = new BankAccount(bal, name, (int)(Math.random()*999999),pass);
-        System.out.println("awesome your path to deficit is in way!");
-
-        System.out.println("Available Funds: $"+b3.getBalance());
-        System.out.print("How much money do you want to withdraw: ");
-        int withdraw = console.nextInt();
-        System.out.println();
-
-        System.out.print("Please enter password: ");
-        String tempPass = console.nextLine();
-        System.out.println(b3.withdraw(withdraw,console.nextLine()));
-        System.out.println("New Available Funds: $"+b3.getBalance());
-
-    } // end of main
-} // end of bank account test class
+}
